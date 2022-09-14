@@ -1,6 +1,6 @@
 name: adaptive_platform_widgets
 description: Flutter package to automatically build widgets according to the platform. Only Android & iOS. 
-version: 0.0.1
+version: 0.0.3
 homepage: https://github.com/Gabbo-DEV/flutter_adaptive.git
 
 

@@ -53,7 +53,7 @@ class AdaptiveAlert {
   static Future<void> error(BuildContext context,
       {Widget title = const Text('Error'),
       Widget content = const Text(''),
-      VoidCallback? onPressed}) {
+      required VoidCallback onPressed}) {
     if (!Platform.isIOS) {
       return showDialog<bool>(
         context: context,
@@ -61,7 +61,7 @@ class AdaptiveAlert {
           title: title,
           actions: <Widget>[
             TextButton(
-              onPressed: () => onPressed ?? Navigator.of(context).pop(),
+              onPressed: onPressed,
               child: const Text('OK'),
             ),
           ],
@@ -74,7 +74,7 @@ class AdaptiveAlert {
         title: title,
         actions: <Widget>[
           CupertinoDialogAction(
-            onPressed: () => onPressed ?? Navigator.of(context).pop(),
+            onPressed: onPressed,
             child: const Text(
               'Ok',
               style: TextStyle(color: Colors.white),
