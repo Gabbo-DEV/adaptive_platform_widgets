@@ -51,7 +51,9 @@ class AdaptiveAlert {
   }
 
   static Future<void> error(BuildContext context,
-      {Widget title = const Text('Error'), Widget content = const Text('')}) {
+      {Widget title = const Text('Error'),
+      Widget content = const Text(''),
+      VoidCallback? onPressed}) {
     if (!Platform.isIOS) {
       return showDialog<bool>(
         context: context,
@@ -59,7 +61,7 @@ class AdaptiveAlert {
           title: title,
           actions: <Widget>[
             TextButton(
-              onPressed: () {},
+              onPressed: () => onPressed ?? Navigator.of(context).pop(),
               child: const Text('OK'),
             ),
           ],
