@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class AdaptiveAlert {
+  const AdaptiveAlert._();
+
   static Future<bool?> twoButtons({
     required BuildContext context,
     required Widget title,
