@@ -74,7 +74,7 @@ class AdaptiveAlert {
         title: title,
         actions: <Widget>[
           CupertinoDialogAction(
-            onPressed: () {},
+            onPressed: () => onPressed ?? Navigator.of(context).pop(),
             child: const Text(
               'Ok',
               style: TextStyle(color: Colors.white),
