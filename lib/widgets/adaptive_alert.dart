@@ -86,4 +86,31 @@ class AdaptiveAlert {
       ),
     );
   }
+
+  static Future<void> thinLoading(BuildContext context) {
+    if (!Platform.isIOS) {
+      return showDialog<bool>(
+        context: context,
+        builder: (context) => const AlertDialog(
+          actions: <Widget>[
+            SizedBox(
+              height: 60,
+              child: Center(child: CircularProgressIndicator.adaptive()),
+            ),
+          ],
+        ),
+      );
+    }
+    return showCupertinoDialog<bool>(
+      context: context,
+      builder: (context) => const CupertinoAlertDialog(
+        actions: <Widget>[
+          SizedBox(
+            height: 60,
+            child: Center(child: CircularProgressIndicator.adaptive()),
+          ),
+        ],
+      ),
+    );
+  }
 }
