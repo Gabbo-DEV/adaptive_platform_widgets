@@ -46,7 +46,6 @@ class AdaptiveButton extends StatelessWidget {
       return CupertinoButton(
         onPressed: onPressed,
         padding: padding,
-        minSize: minimumSize!.width,
         borderRadius: borderRadius,
         color: primaryColor,
         child: child,

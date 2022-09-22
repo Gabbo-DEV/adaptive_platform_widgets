@@ -38,7 +38,7 @@ class AdaptiveScaffold extends StatelessWidget {
         key: key,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,
         navigationBar: cupertinoNavigationBar,
-        backgroundColor: backgroundColor,
+        backgroundColor: backgroundColor ?? Colors.white,
         child: child,
       );
     } else {
