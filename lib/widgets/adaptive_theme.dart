@@ -26,4 +26,18 @@ class AdaptiveTheme {
   Color get secondaryColor => materialTheme != null
       ? materialTheme!.colorScheme.secondary
       : cupertinoTheme!.primaryContrastingColor;
+
+  Color get tertiaryColor => materialTheme != null
+      ? materialTheme!.colorScheme.tertiary
+      : materialTheme!
+          .colorScheme.tertiary; // iOS doesn't have tertiary color property
+
+  Color get hintColor => materialTheme != null
+      ? materialTheme!.hintColor
+      : materialTheme!.hintColor; // iOS doesn't have tertiary color property
+
+  Color get errorColor => materialTheme != null
+      ? materialTheme!.colorScheme.error
+      : materialTheme!
+          .colorScheme.error; // iOS doesn't have tertiary color property
 }
