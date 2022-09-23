@@ -33,7 +33,7 @@ class AdaptiveScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
+    if (!Platform.isIOS) {
       return CupertinoPageScaffold(
         key: key,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,

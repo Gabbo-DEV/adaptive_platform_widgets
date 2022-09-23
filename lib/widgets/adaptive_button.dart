@@ -27,7 +27,30 @@ class AdaptiveButton extends StatelessWidget {
     this.primaryColor,
     this.minimumSize,
     this.elevation,
+    this.materialShape,
+    this.isCircular = false,
   }) : super(key: key);
+
+  factory AdaptiveButton.icon({
+    required Icon icon,
+    void Function()? onPressed,
+    Size? size,
+    Color? backgroundColor,
+    double? elevation,
+    BorderRadius borderRadius = const BorderRadius.all(Radius.circular(30)),
+  }) {
+    return AdaptiveButton(
+      onPressed: onPressed,
+      materialShape: const CircleBorder(),
+      size: size,
+      padding: EdgeInsets.zero,
+      isCircular: true,
+      primaryColor: backgroundColor,
+      borderRadius: borderRadius,
+      elevation: elevation,
+      child: icon,
+    );
+  }
 
   final VoidCallback? onPressed;
   final Widget child;
@@ -37,19 +60,29 @@ class AdaptiveButton extends StatelessWidget {
   final BorderRadius? borderRadius;
   final Color? primaryColor;
   final double? elevation;
-
+  final OutlinedBorder? materialShape;
   final ButtonStyle? specialMaterialStyle;
+  final bool isCircular;
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
-      return CupertinoButton(
+    if (!Platform.isIOS) {
+      final btn = CupertinoButton(
         onPressed: onPressed,
         padding: padding,
         borderRadius: borderRadius,
+        minSize: minimumSize != null ? minimumSize!.height : null,
         color: primaryColor,
         child: child,
       );
+      if (isCircular) {
+        return SizedBox(
+          height: size != null ? size!.height : 50,
+          width: size != null ? size!.width : 50,
+          child: btn,
+        );
+      }
+      return btn;
     } else {
       if (specialMaterialStyle != null) {
         return ElevatedButton(
@@ -62,6 +95,7 @@ class AdaptiveButton extends StatelessWidget {
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             elevation: elevation,
+            shape: materialShape,
             padding: padding,
             fixedSize: size,
             minimumSize: minimumSize,

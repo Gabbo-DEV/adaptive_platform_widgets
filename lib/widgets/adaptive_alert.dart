@@ -14,38 +14,39 @@ class AdaptiveAlert {
     String? yesText,
   }) {
     if (!Platform.isIOS) {
-      return showDialog<bool>(
+      return showCupertinoDialog<bool>(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (context) => CupertinoAlertDialog(
           title: title,
           actions: <Widget>[
-            ElevatedButton(
+            CupertinoDialogAction(
               onPressed: onNoPressed,
               child: const Text('No', style: TextStyle(color: Colors.white)),
             ),
-            TextButton(
+            CupertinoDialogAction(
               onPressed: onYesPressed,
-              child: Text(yesText ?? 'Yes'),
+              child: Text(
+                yesText ?? 'Yes',
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
       );
     }
-    return showCupertinoDialog<bool>(
+
+    return showDialog<bool>(
       context: context,
-      builder: (context) => CupertinoAlertDialog(
+      builder: (context) => AlertDialog(
         title: title,
         actions: <Widget>[
-          CupertinoDialogAction(
+          ElevatedButton(
             onPressed: onNoPressed,
             child: const Text('No', style: TextStyle(color: Colors.white)),
           ),
-          CupertinoDialogAction(
+          TextButton(
             onPressed: onYesPressed,
-            child: Text(
-              yesText ?? 'Yes',
-              style: const TextStyle(color: Colors.white),
-            ),
+            child: Text(yesText ?? 'Yes'),
           ),
         ],
       ),

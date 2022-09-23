@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AdaptiveTextFormField extends StatelessWidget {
   const AdaptiveTextFormField({
@@ -21,6 +22,9 @@ class AdaptiveTextFormField extends StatelessWidget {
     this.borderSide = const BorderSide(),
     this.validator,
     this.color,
+    this.inputFormatters,
+    this.useSuffixAsPrefixCupertino = false,
+    this.suffix,
   }) : super(key: key);
 
   final TextCapitalization textCapitalization;
@@ -38,17 +42,21 @@ class AdaptiveTextFormField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final String? Function(String?)? validator;
   final Color? color;
+  final List<TextInputFormatter>? inputFormatters;
+  final bool useSuffixAsPrefixCupertino;
+  final Widget? suffix;
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
+    if (!Platform.isIOS) {
       return CupertinoTextFormFieldRow(
         textCapitalization: textCapitalization,
         onChanged: onChanged,
         keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
         autocorrect: autocorrect,
         enableSuggestions: enableSuggestions,
-        prefix: prefix,
+        prefix: useSuffixAsPrefixCupertino ? suffix : prefix,
         validator: validator,
         obscureText: obscureText,
         placeholder: hintText,
@@ -74,13 +82,25 @@ class AdaptiveTextFormField extends StatelessWidget {
       obscureText: obscureText,
       validator: validator,
       textInputAction: textInputAction,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         filled: color != null,
         fillColor: color,
-        prefix: prefix,
+        prefixIcon: prefix is Icon ? prefix : null,
+        prefix: prefix is! Icon ? prefix : null,
         hintText: hintText,
         hintStyle: hintStyle,
-        border: materialInputBorder.copyWith(borderSide: borderSide),
+        suffix: suffix is Icon ? suffix : null,
+        suffixIcon: suffix is! Icon ? suffix : null,
+        border: materialInputBorder is OutlineInputBorder
+            ? (materialInputBorder as OutlineInputBorder).copyWith(
+                borderRadius: borderRadius as BorderRadius,
+                borderSide: borderSide,
+              )
+            : (materialInputBorder as UnderlineInputBorder).copyWith(
+                borderRadius: borderRadius as BorderRadius,
+                borderSide: borderSide,
+              ),
       ),
     );
   }

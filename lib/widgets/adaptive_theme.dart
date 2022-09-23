@@ -12,11 +12,11 @@ class AdaptiveTheme {
   factory AdaptiveTheme.of(BuildContext context) {
     if (!Platform.isIOS) {
       return AdaptiveTheme._(
-          materialTheme: Theme.of(context), cupertinoTheme: null);
+          materialTheme: null, cupertinoTheme: CupertinoTheme.of(context));
     }
 
     return AdaptiveTheme._(
-        materialTheme: null, cupertinoTheme: CupertinoTheme.of(context));
+        materialTheme: Theme.of(context), cupertinoTheme: null);
   }
 
   Color get primaryColor => materialTheme != null
@@ -29,15 +29,20 @@ class AdaptiveTheme {
 
   Color get tertiaryColor => materialTheme != null
       ? materialTheme!.colorScheme.tertiary
-      : materialTheme!
-          .colorScheme.tertiary; // iOS doesn't have tertiary color property
+      : const Color(0xffF97C2C); // iOS doesn't have tertiary color property
 
   Color get hintColor => materialTheme != null
       ? materialTheme!.hintColor
-      : materialTheme!.hintColor; // iOS doesn't have tertiary color property
+      : Colors.grey; // iOS doesn't have tertiary color property
 
   Color get errorColor => materialTheme != null
       ? materialTheme!.colorScheme.error
-      : materialTheme!
-          .colorScheme.error; // iOS doesn't have tertiary color property
+      : Colors.red; // iOS doesn't have tertiary color property
+
+  Color get dialogBackgroundColor => materialTheme != null
+      ? materialTheme!.dialogBackgroundColor
+      : const Color.fromARGB(
+          255, 244, 244, 244); // iOS doesn't have tertiary color property
 }
+
+//! REMEMBER TO CHANGE THE HARD CODED COLOR FOR iOS IN CASE OF CHANGES 

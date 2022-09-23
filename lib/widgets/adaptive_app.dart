@@ -28,10 +28,10 @@ class AdaptiveApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
+    if (!Platform.isIOS) {
       return CupertinoApp(
-        theme: cupertinoTheme,
         debugShowCheckedModeBanner: showDebugBanner,
+        theme: cupertinoTheme,
         title: title,
         localizationsDelegates: localizationsDelegates,
         supportedLocales: supportedLocales,
@@ -40,8 +40,8 @@ class AdaptiveApp extends StatelessWidget {
       );
     }
     return MaterialApp(
-      theme: materialTheme,
       debugShowCheckedModeBanner: showDebugBanner,
+      theme: materialTheme,
       title: title,
       localizationsDelegates: localizationsDelegates,
       supportedLocales: supportedLocales,
