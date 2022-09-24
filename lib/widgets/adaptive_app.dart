@@ -1,9 +1,8 @@
-import 'dart:io';
-
+import 'package:adaptive_platform_widgets/adaptive_widget_contract.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AdaptiveApp extends StatelessWidget {
+class AdaptiveApp extends PlatformWidget<CupertinoApp, MaterialApp> {
   const AdaptiveApp({
     Key? key,
     this.materialTheme,
@@ -27,18 +26,20 @@ class AdaptiveApp extends StatelessWidget {
   final RouteFactory onGenerateRoute;
 
   @override
-  Widget build(BuildContext context) {
-    if (!Platform.isIOS) {
-      return CupertinoApp(
-        debugShowCheckedModeBanner: showDebugBanner,
-        theme: cupertinoTheme,
-        title: title,
-        localizationsDelegates: localizationsDelegates,
-        supportedLocales: supportedLocales,
-        initialRoute: initialRoute,
-        onGenerateRoute: onGenerateRoute,
-      );
-    }
+  CupertinoApp buildCupertinoWidget(BuildContext context) {
+    return CupertinoApp(
+      debugShowCheckedModeBanner: showDebugBanner,
+      theme: cupertinoTheme,
+      title: title,
+      localizationsDelegates: localizationsDelegates,
+      supportedLocales: supportedLocales,
+      initialRoute: initialRoute,
+      onGenerateRoute: onGenerateRoute,
+    );
+  }
+
+  @override
+  MaterialApp buildMaterialWidget(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: showDebugBanner,
       theme: materialTheme,

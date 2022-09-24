@@ -1,20 +1,17 @@
-import 'dart:io';
-
+import 'package:adaptive_platform_widgets/adaptive_widget_contract.dart';
 import 'package:flutter/material.dart';
 
-class AdaptiveWidget extends StatelessWidget {
+class AdaptiveWidget extends PlatformWidget<Widget, Widget> {
   const AdaptiveWidget(
-      {Key? key, required this.androidWidget, required this.iOSWidget})
+      {Key? key, required this.materialWidget, required this.iOSWidget})
       : super(key: key);
 
-  final Widget androidWidget;
+  final Widget materialWidget;
   final Widget iOSWidget;
 
   @override
-  Widget build(BuildContext context) {
-    if (Platform.isIOS) {
-      return iOSWidget;
-    }
-    return androidWidget;
-  }
+  Widget buildCupertinoWidget(BuildContext context) => iOSWidget;
+
+  @override
+  Widget buildMaterialWidget(BuildContext context) => materialWidget;
 }

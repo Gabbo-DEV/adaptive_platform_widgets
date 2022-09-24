@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../adaptive_widget_contract.dart';
 
 // this widget returns either a CupertinoButton or Elevated button
 
@@ -15,7 +15,7 @@ import 'package:flutter/cupertino.dart';
 
 // the class is open to accept new properties
 
-class AdaptiveButton extends StatelessWidget {
+class AdaptiveButton extends PlatformWidget<Widget, ElevatedButton> {
   const AdaptiveButton({
     Key? key,
     this.specialMaterialStyle,
@@ -65,45 +65,38 @@ class AdaptiveButton extends StatelessWidget {
   final bool isCircular;
 
   @override
-  Widget build(BuildContext context) {
-    if (!Platform.isIOS) {
-      final btn = CupertinoButton(
-        onPressed: onPressed,
-        padding: padding,
-        borderRadius: borderRadius,
-        minSize: minimumSize != null ? minimumSize!.height : null,
-        color: primaryColor,
-        child: child,
+  Widget buildCupertinoWidget(BuildContext context) {
+    final btn = CupertinoButton(
+      onPressed: onPressed,
+      padding: padding,
+      borderRadius: borderRadius,
+      minSize: minimumSize != null ? minimumSize!.height : null,
+      color: primaryColor,
+      child: child,
+    );
+    if (isCircular) {
+      return SizedBox(
+        height: size != null ? size!.height : 50,
+        width: size != null ? size!.width : 50,
+        child: btn,
       );
-      if (isCircular) {
-        return SizedBox(
-          height: size != null ? size!.height : 50,
-          width: size != null ? size!.width : 50,
-          child: btn,
-        );
-      }
-      return btn;
-    } else {
-      if (specialMaterialStyle != null) {
-        return ElevatedButton(
-          onPressed: onPressed,
-          style: specialMaterialStyle, // custom style
-          child: child,
-        );
-      } else {
-        return ElevatedButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            elevation: elevation,
-            shape: materialShape,
-            padding: padding,
-            fixedSize: size,
-            minimumSize: minimumSize,
-            primary: primaryColor,
-          ),
-          child: child,
-        );
-      }
     }
+    return btn;
+  }
+
+  @override
+  ElevatedButton buildMaterialWidget(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        elevation: elevation,
+        shape: materialShape,
+        padding: padding,
+        fixedSize: size,
+        minimumSize: minimumSize,
+        primary: primaryColor,
+      ),
+      child: child,
+    );
   }
 }

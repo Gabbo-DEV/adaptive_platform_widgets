@@ -1,10 +1,10 @@
-import 'dart:io';
-
+import 'package:adaptive_platform_widgets/adaptive_widget_contract.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AdaptiveTextFormField extends StatelessWidget {
+class AdaptiveTextFormField
+    extends PlatformWidget<CupertinoTextFormFieldRow, TextFormField> {
   const AdaptiveTextFormField({
     Key? key,
     this.textCapitalization = TextCapitalization.none,
@@ -47,32 +47,33 @@ class AdaptiveTextFormField extends StatelessWidget {
   final Widget? suffix;
 
   @override
-  Widget build(BuildContext context) {
-    if (!Platform.isIOS) {
-      return CupertinoTextFormFieldRow(
-        textCapitalization: textCapitalization,
-        onChanged: onChanged,
-        keyboardType: keyboardType,
-        inputFormatters: inputFormatters,
-        autocorrect: autocorrect,
-        enableSuggestions: enableSuggestions,
-        prefix: useSuffixAsPrefixCupertino ? suffix : prefix,
-        validator: validator,
-        obscureText: obscureText,
-        placeholder: hintText,
-        placeholderStyle: hintStyle,
-        textInputAction: textInputAction,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: borderRadius,
-          border: Border.all(
-            width: borderSide.width,
-            style: borderSide.style,
-          ),
+  CupertinoTextFormFieldRow buildCupertinoWidget(BuildContext context) {
+    return CupertinoTextFormFieldRow(
+      textCapitalization: textCapitalization,
+      onChanged: onChanged,
+      keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
+      autocorrect: autocorrect,
+      enableSuggestions: enableSuggestions,
+      prefix: useSuffixAsPrefixCupertino ? suffix : prefix,
+      validator: validator,
+      obscureText: obscureText,
+      placeholder: hintText,
+      placeholderStyle: hintStyle,
+      textInputAction: textInputAction,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: borderRadius,
+        border: Border.all(
+          width: borderSide.width,
+          style: borderSide.style,
         ),
-      );
-    }
+      ),
+    );
+  }
 
+  @override
+  TextFormField buildMaterialWidget(BuildContext context) {
     return TextFormField(
       textCapitalization: textCapitalization,
       onChanged: onChanged,

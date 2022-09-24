@@ -1,7 +1,9 @@
-import 'dart:io';
+import 'package:flutter/material.dart'
+    show Scaffold, Colors, Key, Widget, Color, BuildContext;
+import 'package:flutter/cupertino.dart'
+    show CupertinoPageScaffold, CupertinoNavigationBar;
 
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import '../adaptive_widget_contract.dart';
 
 // this widget returns either a CupertinoPageScaffold or Scaffold
 
@@ -15,7 +17,7 @@ import 'package:flutter/cupertino.dart';
 
 // the class is open to accept new properties
 
-class AdaptiveScaffold extends StatelessWidget {
+class AdaptiveScaffold extends PlatformWidget<CupertinoPageScaffold, Scaffold> {
   const AdaptiveScaffold({
     Key? key,
     required this.child,
@@ -32,26 +34,23 @@ class AdaptiveScaffold extends StatelessWidget {
   final Scaffold? specialScaffold;
 
   @override
-  Widget build(BuildContext context) {
-    if (!Platform.isIOS) {
-      return CupertinoPageScaffold(
-        key: key,
-        resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,
-        navigationBar: cupertinoNavigationBar,
-        backgroundColor: backgroundColor ?? Colors.white,
-        child: child,
-      );
-    } else {
-      if (specialScaffold != null) {
-        return specialScaffold!;
-      } else {
-        return Scaffold(
-          key: key,
-          resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,
-          backgroundColor: backgroundColor,
-          body: child,
-        );
-      }
-    }
+  CupertinoPageScaffold buildCupertinoWidget(BuildContext context) {
+    return CupertinoPageScaffold(
+      key: key,
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,
+      navigationBar: cupertinoNavigationBar,
+      backgroundColor: backgroundColor ?? Colors.white,
+      child: child,
+    );
+  }
+
+  @override
+  Scaffold buildMaterialWidget(BuildContext context) {
+    return Scaffold(
+      key: key,
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,
+      backgroundColor: backgroundColor,
+      body: child,
+    );
   }
 }
