@@ -6,6 +6,59 @@ import 'package:flutter/cupertino.dart';
 class AdaptiveAlert {
   const AdaptiveAlert._();
 
+  static Future<DateTime?> datePicker({
+    required BuildContext context,
+    required DateTime maximumDate,
+    DateTime? initialDate,
+    required String doneText,
+  }) async {
+    if (!Platform.isIOS) {
+      DateTime? pickedDate;
+      await showCupertinoModalPopup(
+        context: context,
+        builder: (context) {
+          return CupertinoActionSheet(
+            actions: [
+              SizedBox(
+                height: 180,
+                child: CupertinoDatePicker(
+                  onDateTimeChanged: (value) => pickedDate = value,
+                  mode: CupertinoDatePickerMode.date,
+                  maximumDate: maximumDate,
+                  initialDateTime: initialDate,
+                ),
+              ),
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              child: Text(doneText),
+              onPressed: () => Navigator.pop(context),
+            ),
+          );
+        },
+      );
+
+      return pickedDate;
+    }
+
+    return await showDatePicker(
+      context: context,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Theme.of(context).colorScheme.primary,
+            colorScheme: ColorScheme.light(
+              primary: Theme.of(context).colorScheme.tertiary,
+            ),
+          ),
+          child: child!,
+        );
+      },
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+  }
+
   static Future<bool?> twoButtons({
     required BuildContext context,
     required Widget title,
