@@ -12,7 +12,7 @@ class AdaptiveAlert {
     DateTime? initialDate,
     required String doneText,
   }) async {
-    if (!Platform.isIOS) {
+    if (Platform.isIOS) {
       DateTime? pickedDate;
       await showCupertinoModalPopup(
         context: context,
@@ -106,8 +106,8 @@ class AdaptiveAlert {
     );
   }
 
-  static Future<void> error(BuildContext context,
-      {Widget title = const Text('Error'),
+  static Future<void> information(BuildContext context,
+      {required Widget title,
       Widget content = const Text(''),
       required VoidCallback onPressed}) {
     if (!Platform.isIOS) {
@@ -115,6 +115,21 @@ class AdaptiveAlert {
         context: context,
         builder: (context) => AlertDialog(
           title: title,
+          content: Stack(
+            children: [
+              content,
+              const Positioned(
+                left: 200,
+                top: 0,
+                bottom: 140,
+                child: Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: 42,
+                ),
+              ),
+            ],
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: onPressed,
