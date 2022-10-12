@@ -41,9 +41,9 @@ class AdaptiveApp extends PlatformWidget<CupertinoApp, MaterialApp> {
       supportedLocales: supportedLocales,
       initialRoute: initialRoute,
       onGenerateRoute: onGenerateRoute,
-      navigatorObservers: (navigatorObservers ??  const <NavigatorObserver>[]) as List<NavigatorObserver>,
+      navigatorObservers: (navigatorObservers ?? const <NavigatorObserver>[]),
       navigatorKey: navigatorKey,
-      routes: (routes ??  const <String, WidgetBuilder>{}) as Map<String, WidgetBuilder>,
+      routes: (routes ?? const <String, WidgetBuilder>{})
     );
   }
 
@@ -57,9 +57,9 @@ class AdaptiveApp extends PlatformWidget<CupertinoApp, MaterialApp> {
       supportedLocales: supportedLocales,
       initialRoute: initialRoute,
       onGenerateRoute: onGenerateRoute,
-      navigatorObservers: (navigatorObservers ??  const <NavigatorObserver>[]) as List<NavigatorObserver>,
+      navigatorObservers: (navigatorObservers ?? const <NavigatorObserver>[]),
       navigatorKey: navigatorKey,
-      routes: (routes ??  const <String, WidgetBuilder>{}) as Map<String, WidgetBuilder>,
+      routes: (routes ?? const <String, WidgetBuilder>{}),
     );
   }
 }
