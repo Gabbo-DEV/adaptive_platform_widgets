@@ -11,10 +11,8 @@ abstract class PlatformWidget<C extends Widget, M extends Widget>
 
   @override
   Widget build(BuildContext context) {
-    if (!Platform.isIOS) {
-      return buildCupertinoWidget(context);
-    }
-
-    return buildMaterialWidget(context);
+    return Platform.isIOS
+        ? buildCupertinoWidget(context)
+        : buildMaterialWidget(context);
   }
 }
