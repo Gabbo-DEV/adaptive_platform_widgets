@@ -123,15 +123,6 @@ class AdaptiveAlert {
           backgroundColor: Colors.transparent,
           child: Stack(
             children: [
-              // const Positioned(
-              //   left: 1,
-              //   bottom: 100,
-              //   child: Icon(
-              //     Icons.error,
-              //     color: Colors.red,
-              //     size: 44,
-              //   ),
-              // ),
               Container(
                 margin: const EdgeInsets.only(top: 45),
                 decoration: BoxDecoration(
@@ -164,17 +155,17 @@ class AdaptiveAlert {
                   ],
                 ),
               ),
-              const Positioned(
-                left: 20,
-                bottom: 70,
-                right: 20,
-                child: CircleAvatar(
+              Positioned(
+                left: 1,
+                bottom: body == null ? 1 : 55,
+                right: body == null ? 1 : 230,
+                child: const CircleAvatar(
                   backgroundColor: Colors.transparent,
                   radius: 45,
                   child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(45)),
                       child: Icon(
-                        Icons.error,
+                        Icons.warning,
                         color: Colors.red,
                         size: 50,
                       )),
@@ -189,14 +180,12 @@ class AdaptiveAlert {
     return showCupertinoDialog<bool>(
       context: context,
       builder: (context) => CupertinoAlertDialog(
-        title: const Text('ciao'),
+        title: Text(title),
+        content: Text(body ?? ''),
         actions: <Widget>[
           CupertinoDialogAction(
             onPressed: onPressed,
-            child: const Text(
-              'Ok',
-              style: TextStyle(color: Colors.white),
-            ),
+            child: const Text('Ok'),
           ),
         ],
       ),
@@ -204,49 +193,80 @@ class AdaptiveAlert {
   }
 
   static Future<void> information(BuildContext context,
-      {required Widget title,
-      Widget content = const Text(''),
-      required VoidCallback onPressed}) {
+      {required String title, String? body, required VoidCallback onPressed}) {
     if (!Platform.isIOS) {
-      return showDialog<bool>(
+      return showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: title,
-          content: Stack(
+        builder: (context) => Dialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          child: Stack(
             children: [
-              content,
-              const Positioned(
-                left: 200,
-                top: 0,
-                bottom: 140,
-                child: Icon(
-                  Icons.error,
-                  color: Colors.red,
-                  size: 42,
+              Container(
+                margin: const EdgeInsets.only(top: 45),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 10),
+                    // title
+                    Text(
+                      title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(body ?? ''),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: TextButton(
+                          onPressed: onPressed,
+                          child: const Text(
+                            'Ok',
+                            style: TextStyle(fontSize: 16),
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: 1,
+                bottom: body == null ? 1 : 45,
+                right: body == null ? 1 : 230,
+                child: const CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 45,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(45)),
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.green,
+                        size: 50,
+                      )),
                 ),
               ),
             ],
           ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: onPressed,
-              child: const Text('OK'),
-            ),
-          ],
         ),
       );
     }
     return showCupertinoDialog<bool>(
       context: context,
       builder: (context) => CupertinoAlertDialog(
-        title: title,
+        title: Text(title),
+        content: Text(body ?? ''),
         actions: <Widget>[
           CupertinoDialogAction(
             onPressed: onPressed,
-            child: const Text(
-              'Ok',
-              style: TextStyle(color: Colors.white),
-            ),
+            child: const Text('Ok'),
           ),
         ],
       ),
