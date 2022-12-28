@@ -12,7 +12,10 @@ class AdaptiveApp extends PlatformWidget<CupertinoApp, MaterialApp> {
     required this.localizationsDelegates,
     required this.supportedLocales,
     required this.initialRoute,
-    required this.onGenerateRoute,
+    this.onGenerateRoute,
+    this.navigatorObservers,
+    this.navigatorKey,
+    this.routes,
   }) : super(key: key);
 
   final ThemeData? materialTheme;
@@ -23,31 +26,40 @@ class AdaptiveApp extends PlatformWidget<CupertinoApp, MaterialApp> {
   final List<LocalizationsDelegate<dynamic>> localizationsDelegates;
   final List<Locale> supportedLocales;
   final String initialRoute;
-  final RouteFactory onGenerateRoute;
+  final RouteFactory? onGenerateRoute;
+  final List<NavigatorObserver>? navigatorObservers;
+  final GlobalKey<NavigatorState>? navigatorKey;
+  final Map<String, WidgetBuilder>? routes;
 
   @override
   CupertinoApp buildCupertinoWidget(BuildContext context) {
     return CupertinoApp(
-      debugShowCheckedModeBanner: showDebugBanner,
       theme: cupertinoTheme,
+      debugShowCheckedModeBanner: showDebugBanner,
       title: title,
       localizationsDelegates: localizationsDelegates,
       supportedLocales: supportedLocales,
       initialRoute: initialRoute,
       onGenerateRoute: onGenerateRoute,
+      navigatorObservers: (navigatorObservers ?? const <NavigatorObserver>[]),
+      navigatorKey: navigatorKey,
+      routes: (routes ?? const <String, WidgetBuilder>{})
     );
   }
 
   @override
   MaterialApp buildMaterialWidget(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: showDebugBanner,
       theme: materialTheme,
+      debugShowCheckedModeBanner: showDebugBanner,
       title: title,
       localizationsDelegates: localizationsDelegates,
       supportedLocales: supportedLocales,
       initialRoute: initialRoute,
       onGenerateRoute: onGenerateRoute,
+      navigatorObservers: (navigatorObservers ?? const <NavigatorObserver>[]),
+      navigatorKey: navigatorKey,
+      routes: (routes ?? const <String, WidgetBuilder>{}),
     );
   }
 }
