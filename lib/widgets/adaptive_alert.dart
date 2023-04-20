@@ -74,13 +74,13 @@ class AdaptiveAlert {
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: onNoPressed,
-              child: const Text('No', style: TextStyle(color: Colors.white)),
+              child: const Text('No', style: TextStyle(color: Colors.black)),
             ),
             CupertinoDialogAction(
               onPressed: onYesPressed,
               child: Text(
                 yesText ?? 'Yes',
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
               ),
             ),
           ],
@@ -95,11 +95,12 @@ class AdaptiveAlert {
         actions: <Widget>[
           ElevatedButton(
             onPressed: onNoPressed,
-            child: const Text('No', style: TextStyle(color: Colors.white)),
+            child: const Text('No', style: TextStyle(color: Colors.black)),
           ),
           TextButton(
             onPressed: onYesPressed,
-            child: Text(yesText ?? 'Yes'),
+            child: Text(yesText ?? 'Yes',
+                style: const TextStyle(color: Colors.black)),
           ),
         ],
       ),
