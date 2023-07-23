@@ -74,7 +74,7 @@ class AdaptiveAlert {
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: onNoPressed,
-              child: const Text('No', style: TextStyle(color: Colors.black)),
+              child: const Text('No', style: TextStyle(color: Colors.white)),
             ),
             CupertinoDialogAction(
               onPressed: onYesPressed,
