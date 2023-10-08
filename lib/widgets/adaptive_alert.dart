@@ -59,6 +59,53 @@ class AdaptiveAlert {
     );
   }
 
+  static Future<TimeOfDay?> timePicker({
+    required BuildContext context,
+    required String doneText,
+  }) async {
+    DateTime? pickedDate;
+    if (Platform.isIOS) {
+      await showCupertinoModalPopup(
+        context: context,
+        builder: (context) {
+          return CupertinoActionSheet(
+            actions: [
+              SizedBox(
+                height: 180,
+                child: CupertinoDatePicker(
+                  onDateTimeChanged: (value) => pickedDate = value,
+                  mode: CupertinoDatePickerMode.time,
+                ),
+              ),
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              child: Text(doneText),
+              onPressed: () => Navigator.pop(context),
+            ),
+          );
+        },
+      );
+
+      return pickedDate != null ? TimeOfDay.fromDateTime(pickedDate!) : null;
+    }
+
+    return await showTimePicker(
+      context: context,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Theme.of(context).colorScheme.primary,
+            colorScheme: ColorScheme.light(
+              primary: Theme.of(context).colorScheme.tertiary,
+            ),
+          ),
+          child: child!,
+        );
+      },
+      initialTime: TimeOfDay.now(),
+    );
+  }
+
   static Future<bool?> twoButtons({
     required BuildContext context,
     required Widget title,
@@ -201,7 +248,7 @@ class AdaptiveAlert {
   }
 
   static Future<void> information(BuildContext context,
-      {required String title, String? body, required VoidCallback? onPressed}) {
+      {required String title, String? body, VoidCallback? onPressed}) {
     if (Platform.isAndroid) {
       return showGeneralDialog(
         context: context,
