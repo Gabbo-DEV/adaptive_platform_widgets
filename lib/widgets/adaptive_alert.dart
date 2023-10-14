@@ -27,7 +27,6 @@ class AdaptiveAlert {
                   mode: CupertinoDatePickerMode.date,
                   maximumDate: maximumDate,
                   initialDateTime: initialDate,
-                  minimumDate: minimumDate,
                 ),
               ),
             ],
@@ -55,59 +54,9 @@ class AdaptiveAlert {
           child: child!,
         );
       },
-      initialDate: initialDate ?? DateTime.now(),
-      firstDate: minimumDate,
-      lastDate: maximumDate,
-    );
-  }
-
-  static Future<TimeOfDay?> timePicker({
-    required BuildContext context,
-    TimeOfDay? initialTime,
-    required String doneText,
-  }) async {
-    if (Platform.isIOS) {
-      DateTime? pickedDate;
-      await showCupertinoModalPopup(
-        context: context,
-        builder: (context) {
-          return CupertinoActionSheet(
-            actions: [
-              SizedBox(
-                height: 180,
-                child: CupertinoDatePicker(
-                  onDateTimeChanged: (value) => pickedDate = value,
-                  mode: CupertinoDatePickerMode.time,
-                ),
-              ),
-            ],
-            cancelButton: CupertinoActionSheetAction(
-              child: Text(doneText),
-              onPressed: () => Navigator.pop(context),
-            ),
-          );
-        },
-      );
-
-      return pickedDate != null
-          ? TimeOfDay(hour: pickedDate!.hour, minute: pickedDate!.minute)
-          : null;
-    }
-
-    return await showTimePicker(
-      context: context,
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: Theme.of(context).colorScheme.primary,
-            colorScheme: ColorScheme.light(
-              primary: Theme.of(context).colorScheme.tertiary,
-            ),
-          ),
-          child: child!,
-        );
-      },
-      initialTime: initialTime ?? TimeOfDay.now(),
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
     );
   }
 
@@ -214,7 +163,7 @@ class AdaptiveAlert {
   }) {
     return showGeneralDialog(
       context: context,
-      transitionDuration: const Duration(milliseconds: 200),
+      transitionDuration: const Duration(milliseconds: 600),
       transitionBuilder: (ctx, a1, a2, child) {
         return Transform.scale(
           scale: Curves.easeInOut.transform(a1.value),
@@ -283,19 +232,31 @@ class AdaptiveAlert {
         return Container();
       },
     );
+
+    // return showCupertinoDialog<bool>(
+    //   context: context,
+    //   builder: (context) => CupertinoAlertDialog(
+    //     title: Text(title),
+    //     content: Text(body ?? ''),
+    //     actions: <Widget>[
+    //       CupertinoDialogAction(
+    //         onPressed: onPressed,
+    //         child: const Text('Ok'),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 
   static Future<void> information(BuildContext context,
       {required String title, String? body, VoidCallback? onPressed}) {
     if (Platform.isAndroid) {
       return showGeneralDialog(
-        barrierDismissible: true,
-        barrierLabel: 'Ciao',
         context: context,
-        transitionDuration: const Duration(milliseconds: 200),
+        transitionDuration: const Duration(milliseconds: 600),
         transitionBuilder: (ctx, a1, a2, child) {
           return Transform.scale(
-            scale: Curves.ease.transform(a1.value),
+            scale: Curves.easeInOut.transform(a1.value),
             child: Dialog(
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
